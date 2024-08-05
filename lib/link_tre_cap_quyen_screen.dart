@@ -1,5 +1,7 @@
 import 'package:bao_ve_tre_em/link_tre_cap_quyen2_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 
 class LinkCapQuyenScreen extends StatefulWidget {
   const LinkCapQuyenScreen({super.key});
@@ -9,6 +11,15 @@ class LinkCapQuyenScreen extends StatefulWidget {
 }
 
 class _LinkCapQuyenScreenState extends State<LinkCapQuyenScreen> {
+  static const platform = MethodChannel('vpn');
+  Future<void> _startVpn() async {
+    try {
+      final String result = await platform.invokeMethod('startVpn');
+      print(result);
+    } on PlatformException catch (e) {
+      print("Failed to start VPN: '${e.message}'.");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,8 +29,8 @@ class _LinkCapQuyenScreenState extends State<LinkCapQuyenScreen> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color.fromRGBO(0, 0, 200, 0.2),
-                const Color.fromRGBO(255, 100, 100, 0.7)
+                Color.fromRGBO(0, 0, 200, 0.2),
+                Color.fromRGBO(255, 100, 100, 0.7)
               ],
               begin: Alignment.bottomLeft,
               end: Alignment.centerRight,
@@ -64,7 +75,8 @@ class _LinkCapQuyenScreenState extends State<LinkCapQuyenScreen> {
           ),
         ),
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>LinkCapQuyen2Screen()));
+          _startVpn();
+          //Navigator.push(context, MaterialPageRoute(builder: (context)=>LinkCapQuyen2Screen()));
         },
       )
     ));
