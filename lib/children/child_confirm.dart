@@ -1,11 +1,14 @@
-import 'package:bao_ve_tre_em/link_tre_cap_quyen_screen.dart';
+import 'package:bao_ve_tre_em/children/child_set_profile.dart';
+import 'package:bao_ve_tre_em/children/prepare_permission.dart';
+import 'package:bao_ve_tre_em/services/firebase_parent.dart';
 import 'package:flutter/material.dart';
 
-class LinkXacNhan extends StatelessWidget {
-  final String email;
+class ChildConfirm extends StatelessWidget {
+  String email;
 
-  const LinkXacNhan({super.key, required this.email});
+  ChildConfirm({super.key, required this.email});
 
+  ParentService _parentService = ParentService();
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -41,11 +44,11 @@ class LinkXacNhan extends StatelessWidget {
                       const LinearGradient(colors: [Colors.blue, Colors.purple])
                           .createShader(bounds),
                   child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LinkCapQuyenScreen()));
+                      onPressed: () async {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ChildSetProfile()));
                       },
                       child: const Text(
                         "Xác nhận",

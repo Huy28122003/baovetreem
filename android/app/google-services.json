@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997976618558",
+    "project_id": "datadns-ea2e6",
+    "storage_bucket": "datadns-ea2e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997976618558:android:5136f25eafbac387ef036f",
+        "android_client_info": {
+          "package_name": "com.example.bao_ve_tre_em"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYjOBA95GyXroo--6cah86G6GobkYQNes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

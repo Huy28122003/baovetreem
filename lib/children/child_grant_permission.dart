@@ -1,14 +1,59 @@
-import 'package:bao_ve_tre_em/link_tre_chi_tiet_screen.dart';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
+import 'package:bao_ve_tre_em/children/app_list.dart';
+import 'package:bao_ve_tre_em/children/app_using_time.dart';
+import 'package:bao_ve_tre_em/children/child_push_data.dart';
+import 'package:bao_ve_tre_em/children/child_set_profile.dart';
+import 'package:bao_ve_tre_em/child/link_tre_chi_tiet_screen.dart';
+import 'package:bao_ve_tre_em/services/device_admin_channel.dart';
 import 'package:flutter/material.dart';
 
-class LinkCapQuyen2Screen extends StatefulWidget {
-  const LinkCapQuyen2Screen({super.key});
+class ChildPermissionGrant extends StatefulWidget {
+  bool deviceAdminEnaled;
+  bool accessibilityServiceEnabled;
+  bool usageStatsEnabled;
+
+  ChildPermissionGrant(
+      {required this.deviceAdminEnaled,
+      required this.accessibilityServiceEnabled,
+      required this.usageStatsEnabled});
 
   @override
-  State<LinkCapQuyen2Screen> createState() => _LinkCapQuyen2ScreenState();
+  State<ChildPermissionGrant> createState() => _ChildPermissionGrantState();
 }
 
-class _LinkCapQuyen2ScreenState extends State<LinkCapQuyen2Screen> {
+class _ChildPermissionGrantState extends State<ChildPermissionGrant> {
+  late bool _deviceAdminEnaled;
+  late bool _accessibilityServiceEnabled;
+  late bool _usageStatsEnabled;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _deviceAdminEnaled = widget.deviceAdminEnaled;
+    _accessibilityServiceEnabled = widget.accessibilityServiceEnabled;
+    _usageStatsEnabled = widget.usageStatsEnabled;
+  }
+
+  void openAppUsageSetting() {
+    final AndroidIntent intent = AndroidIntent(
+      action: 'android.settings.USAGE_ACCESS_SETTINGS',
+      flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+    );
+    intent.launch();
+  }
+
+  void openAccessibilitySetting() {
+    final AndroidIntent intent =
+        AndroidIntent(action: 'android.settings.ACCESSIBILITY_SETTINGS');
+    intent.launch();
+  }
+
+  void openDeviceAdminSettings() {
+    DeviceAdminPermission.requestDeviceAdmin();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,8 +95,18 @@ class _LinkCapQuyen2ScreenState extends State<LinkCapQuyen2Screen> {
                       decoration: const BoxDecoration(color: Colors.white),
                       child: SwitchListTile(
                         contentPadding: EdgeInsets.zero,
-                        value: false,
-                        onChanged: (value) {},
+                        value: _usageStatsEnabled,
+                        onChanged: !_usageStatsEnabled
+                            ? (value) async {
+                                openAppUsageSetting();
+                                if (await DeviceAdminPermission
+                                    .checkUsageStatsPermission()) {
+                                  setState(() {
+                                    _usageStatsEnabled = true;
+                                  });
+                                }
+                              }
+                            : null,
                         title: const Text("Quyền truy cập",
                             style: TextStyle(fontSize: 14)),
                         subtitle: const Text(
@@ -70,12 +125,22 @@ class _LinkCapQuyen2ScreenState extends State<LinkCapQuyen2Screen> {
                     decoration: const BoxDecoration(color: Colors.white),
                     child: SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      value: false,
-                      onChanged: (value) {},
-                      title:
-                          const Text("Quyền vị trí", style: TextStyle(fontSize: 14)),
+                      value: _deviceAdminEnaled,
+                      onChanged: !_deviceAdminEnaled
+                          ? (value) async {
+                              openDeviceAdminSettings();
+                              if (await DeviceAdminPermission
+                                  .checkDeviceAdminPermission()) {
+                                setState(() {
+                                  _deviceAdminEnaled = true;
+                                });
+                              }
+                            }
+                          : null,
+                      title: const Text("Quyền quản trị thiết bị",
+                          style: TextStyle(fontSize: 14)),
                       subtitle: const Text(
-                        "Xem vị trí thời gian thực và thiết lập một số vùng khu vực cho thiết bị này.",
+                        "Quyền quản trị viên ở cấp độ hệ thống ",
                         style: TextStyle(fontSize: 12),
                       ),
                       secondary: const Icon(Icons.lock),
@@ -91,12 +156,22 @@ class _LinkCapQuyen2ScreenState extends State<LinkCapQuyen2Screen> {
                     decoration: const BoxDecoration(color: Colors.white),
                     child: SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      value: false,
-                      onChanged: (value) {},
-                      title: const Text("Quyền người dùng sử dụng",
+                      value: _accessibilityServiceEnabled,
+                      onChanged: !_accessibilityServiceEnabled
+                          ? (value) async {
+                              openAccessibilitySetting();
+                              if (await DeviceAdminPermission
+                                  .checkAccessibilityServicePermission()) {
+                                setState(() {
+                                  _accessibilityServiceEnabled = true;
+                                });
+                              }
+                            }
+                          : null,
+                      title: const Text("Quyền giám sát hành vi",
                           style: TextStyle(fontSize: 14)),
                       subtitle: const Text(
-                        "Xem thời gian sử dụng màn hình và ứng dụng cho thiết bị này.",
+                        "Theo dõi các hành động thực hiện trên thiết bị này",
                         style: TextStyle(fontSize: 12),
                       ),
                       secondary: const Icon(Icons.lock),
@@ -134,7 +209,11 @@ class _LinkCapQuyen2ScreenState extends State<LinkCapQuyen2Screen> {
                         .createShader(bounds),
                     child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const LinkChiTietTreScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                       InstalledAppsScreen()));
                         },
                         child: const Text(
                           "Xác nhận",

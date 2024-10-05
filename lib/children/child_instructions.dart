@@ -1,15 +1,14 @@
+import 'package:bao_ve_tre_em/children/child_link_code.dart';
 import 'package:flutter/material.dart';
 
-import 'link_tre_nhap_ma_screen.dart';
-
-class LinkHuongDan extends StatefulWidget {
-  const LinkHuongDan({super.key});
+class ChildInstructions extends StatefulWidget {
+  const ChildInstructions({super.key});
 
   @override
-  State<LinkHuongDan> createState() => _LinkHuongDanState();
+  State<ChildInstructions> createState() => _ChildInstructionsState();
 }
 
-class _LinkHuongDanState extends State<LinkHuongDan> {
+class _ChildInstructionsState extends State<ChildInstructions> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -81,7 +80,7 @@ class _LinkHuongDanState extends State<LinkHuongDan> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LinkNhapMaScreen()),
+                              builder: (context) => const ChildLinkCode()),
                         );
                       },
                       child: const Text(
