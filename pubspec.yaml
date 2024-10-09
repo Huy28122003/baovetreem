@@ -46,6 +46,8 @@ dependencies:
   app_usage: ^3.0.1
   firebase_auth: ^4.17.8
   firebase_messaging: ^14.7.19
+  flutter_foreground_service: ^0.4.1
+  workmanager: ^0.5.2
 
 dev_dependencies:
   flutter_test:

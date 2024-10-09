@@ -68,7 +68,7 @@ class ParentService {
     }
   }
 
-  Future<void> pushData(List<App> list) async {
+  Future<void> pushAppList(List<App> list) async {
     try {
       DocumentSnapshot documentSnapshot = await _firestore
           .collection('user')
@@ -82,7 +82,8 @@ class ParentService {
             .indexWhere((child) => child['fcmToken'] == DefaultData.fcmToken);
         print(DefaultData.fcmToken);
         if (index != -1) {
-          childData[index]['appList'] = list.map((app) => app.toMap()).toList();;
+          childData[index]['appList'] = list.map((app) => app.toMap()).toList();
+          ;
           _firestore
               .collection('user')
               .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -90,5 +91,54 @@ class ParentService {
         }
       }
     } catch (e) {}
+  }
+
+  Future<List<Children>> getChild() async {
+    DocumentSnapshot snapshot = await _firestore
+        .collection('user')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get();
+    if (snapshot.exists) {
+      List<dynamic> data = snapshot['childList'];
+      List<Children> childList = [];
+      for (var i in data) {
+        Children children = Children.fromMap(i);
+        print(children);
+        childList.add(children);
+      }
+      for (int i = 0; i < childList.length;) {
+        print(childList[i].name);
+      }
+      return childList;
+    } else {
+      return [];
+    }
+  }
+
+  Future<void> pushAppUsage(List<App> appUsage) async {
+    DocumentSnapshot documentSnapshot = await _firestore
+        .collection('user')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+    List<dynamic> childData = data['childList'];
+    int index = childData.indexWhere(
+        (child) => child['fcmToken'].toString() == DefaultData.fcmToken);
+    if (index != -1) {
+      List<dynamic> appList = childData[index]['appList'];
+      for (var i in appUsage) {
+        int id =
+            appList.indexWhere((app) => app['packageName'] == i.packgeName);
+        if(id!=-1){
+          appList[id]['spendTime'] = i.time;
+          childData[index]['appList'] = appList;
+          // print("asdasdas $childData");
+          _firestore
+              .collection('user')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .update({'childList': childData});
+        }
+      }
+    }
   }
 }

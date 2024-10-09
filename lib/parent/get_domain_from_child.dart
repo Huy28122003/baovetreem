@@ -12,6 +12,12 @@ class _PhuHuynhLayDataScreenState extends State<PhuHuynhLayDataScreen> {
   final _firestore = FirestoreService();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(

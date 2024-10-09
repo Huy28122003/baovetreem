@@ -49,8 +49,7 @@ class _InstalledAppsScreenState extends State<InstalledAppsScreen> {
       'com.samsung.android.app.notes',
       'com.android.settings',
       'com.sec.android.app.popupcalculator',
-      ''
-          'com.facebook.orca',
+      'com.facebook.orca',
       'com.google.android.apps.photos',
       'com.sec.android.app.myfiles',
       'com.google.android.videos',
@@ -86,7 +85,7 @@ class _InstalledAppsScreenState extends State<InstalledAppsScreen> {
       App app = App(i.packageName, false, "0", i.appName);
       list.add(app);
     }
-    _parentService.pushData(list);
+    _parentService.pushAppList(list);
   }
 
   @override

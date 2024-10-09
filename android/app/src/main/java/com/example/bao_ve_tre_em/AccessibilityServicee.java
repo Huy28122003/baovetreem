@@ -16,6 +16,7 @@ public class AccessibilityServicee extends AccessibilityService {
         if (event == null || event.getPackageName() == null) {
             return;
         }
+        event.
         // Lấy tên gói của ứng dụng đang chạy
         String currentPackageName = event.getPackageName().toString();
         Log.d(TAG, "Current package: " + currentPackageName);

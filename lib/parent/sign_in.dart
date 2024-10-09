@@ -51,16 +51,16 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<void> signIn() async {
-    String email = _email.text;
-    String pass = _pass.text;
-    User? user = await _auth.signIn(context, email, pass);
-    if (user != null) {
+    // String email = _email.text;
+    // String pass = _pass.text;
+    // User? user = await _auth.signIn(context, email, pass);
+    // if (user != null) {
       // Navigator.push(context, MaterialPageRoute(builder: (context)=>DashBoard()));
       Navigator.pushNamedAndRemoveUntil(
         context,
         '/dashBoard',
         (Route<dynamic> route) => false,
       );
-    }
+    // }
   }
 }

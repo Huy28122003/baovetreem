@@ -1,10 +1,6 @@
-import 'package:bao_ve_tre_em/options.dart';
-import 'package:bao_ve_tre_em/children/app_using_time.dart';
-import 'package:bao_ve_tre_em/parent/get_domain_from_child.dart';
-import 'package:bao_ve_tre_em/children/link_tre_start_vpn_screen.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'children/app_list.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -88,7 +84,7 @@ class WelcomeScreen extends StatelessWidget {
                       const LinearGradient(colors: [Colors.blue, Colors.purple])
                           .createShader(bounds),
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
@@ -98,6 +94,7 @@ class WelcomeScreen extends StatelessWidget {
                           '/options',
                               (Route<dynamic> route) => false,
                         );
+
                       },
                       child: const Text(
                         "Đã hiểu",
